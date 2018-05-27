@@ -7,17 +7,17 @@
   
   <title>设计模式学习笔记之一六大原则 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="设计模式六大原则 ##1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能">
+  <meta name="description" content="###1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能。这样，当修改">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式学习笔记之一六大原则">
 <meta property="og:url" content="http://yoursite.com/2018/05/27/design-patten-01/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="设计模式六大原则 ##1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能">
+<meta property="og:description" content="###1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能。这样，当修改">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-27T16:53:54.370Z">
+<meta property="og:updated_time" content="2018-05-27T16:57:04.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式学习笔记之一六大原则">
-<meta name="twitter:description" content="设计模式六大原则 ##1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能">
+<meta name="twitter:description" content="###1. 单一职责原则（Single Responsibility Principle） 定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。  若违反单一职责原则，例如，class C 中提供了 A、B 两个功能，而当需求发生变化，需要对功能 A 进行修改而导致影响功能 B 的正常使用。若遵循单一职责原则，分别建立两个类 C1、C2 分别完成 A、B 功能。这样，当修改">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -90,8 +90,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="设计模式六大原则"><a href="#设计模式六大原则" class="headerlink" title="设计模式六大原则"></a>设计模式六大原则</h1><hr>
-<p>##1. 单一职责原则（Single Responsibility Principle）</p>
+        <p>###1. 单一职责原则（Single Responsibility Principle）</p>
 <p>定义：<strong>不要存在多于一个导致类变更的原因</strong>。通俗的说，即<strong>一个类只负责一项职责</strong>。 </p>
 <p>若违反单一职责原则，例如，<strong>class C</strong> 中提供了 <strong>A、B</strong> 两个功能，而当需求发生变化，需要对功能 <strong>A</strong> 进行修改而导致影响功能 <strong>B</strong> 的正常使用。若遵循单一职责原则，分别建立两个类 <strong>C1、C2</strong> 分别完成 <strong>A、B</strong> 功能。这样，当修改 <strong>C1</strong> 时，不会有使功能 <strong>B</strong>     发生故障都风险；同理，当修改 <strong>C2</strong> 时，也不会有影响功能 <strong>A</strong> 正常运行的风险。</p>
 <p>通常，在程序已经写好的情况下，这样做简直太费时间了，所以简单的修改类 <strong>C</strong>  以满足需求，虽然就目前来看这种修改是个比较不错的选择，但是这悖于单一职责原则，当后续需求发生了变化时，这种简单的让<strong>一个类负责多于一个职责</strong>会需要更多都修改来适应变化，而且会有影响其他不需要修改的职责风险。当这种情况积累到一定都程度后，我们不得不对代码进行完全的重构，若在起初就遵循该职责，则不会有该问题。</p>
@@ -101,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/27/design-patten-01/" data-id="cjhp2dgch0000nwtviq730vpp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/27/design-patten-01/" data-id="cjhp2h9gj00005otv5eyi8rmo" class="article-share-link">Share</a>
       
       
     </footer>
