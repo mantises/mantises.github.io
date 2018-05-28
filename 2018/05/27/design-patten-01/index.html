@@ -104,7 +104,14 @@
 <p>通常，在程序已经写好的情况下，这样做简直太费时间了，所以简单的修改类 <strong>C</strong>  以满足需求，虽然就目前来看这种修改是个比较不错的选择，但是这悖于单一职责原则，当后续需求发生了变化时，这种简单的让<strong>一个类负责多于一个职责</strong>会需要更多的修改来适应后续的变化，而且会有影响其他不需要修改的职责风险。当这种情况积累到一定都程度后，我们不得不对代码进行完全的重构，若在起初就遵循该职责，则不会有该问题。</p>
 <p>这样做的风险在于职责扩散的不确定性，因为我们不会想到这个职责<strong>A</strong>，在未来可能会扩散为<strong>A<sub>1</sub>，A<sub>2</sub>，A<sub>3</sub>…A<sub>n</sub></strong>。所以记住，在职责扩散到我们无法控制的程度之前，立刻对代码进行重构。</p>
 <p>单一职责原则不仅仅适用于类，也适用于方法和接口，例如我们也常说一个方法实现一个功能。</p>
-
+<h3 id="2-里氏代换原则（Liskov-Substitution-Principle）"><a href="#2-里氏代换原则（Liskov-Substitution-Principle）" class="headerlink" title="2. 里氏代换原则（Liskov Substitution Principle）"></a>2. 里氏代换原则（Liskov Substitution Principle）</h3><p>里氏替换法则常见有以下两种定义：</p>
+<ul>
+<li>如果对每一个类型为 T<sub>1</sub> 的对象 o<sub>1</sub>，都有类型为 T<sub>2</sub> 的对象 o<sub>1</sub>，使得以 T<sub>1</sub> 定义的所有程序 P 在所有的<br>对象 o<sub>1</sub> 都代换成 o<sub>2</sub> 时，程序 P 的行为没有发生变化，那么类型 T<sub>2</sub> 是类型 T<sub>1</sub> 的子类型</li>
+<li>所有引用基类的地方必须能透明地使用其子类的对象</li>
+</ul>
+<p>第二个定义是最清晰明确的，通俗点讲只要父类能出现的地方我子类就可以出现，而且调用子类还不<br>产生任何的错误或异常，调用者可能根本就不需要知道是父类还是子类。但是反过来就不成了，有子类出<br>现的地方，父类未必就能适应，里氏替换法则包含了四层意思：<br>子类必须完全的实现父类的方法。我们在做系统设计时，经常会定义一个接口或者抽象类，然后编写<br>实现，调用类则直接传入接口或抽象类，其实这里已经使用了里氏替换法则。</p>
+<p>我们在类中调用其他类是务必要使用父类或接口，如果不能使用<br>父类或接口，则说明类的设计已经违背了 LSP 原则。里氏替换法则诞生的目的就是加强程序的健壮性，同时版本升级也可以做到非常好的兼容性，增加子<br>类，原有的子类还可以继续运行。在我们项目实施中就是每个子类对应了不同的业务含义，使用父类作为<br>参数，传递不同的子类完成不同的业务逻辑。</p>
+<h3 id="3-依赖倒置原则（Dependence-Inversion-Principle）"><a href="#3-依赖倒置原则（Dependence-Inversion-Principle）" class="headerlink" title="3. 依赖倒置原则（Dependence Inversion Principle）"></a>3. 依赖倒置原则（Dependence Inversion Principle）</h3>
 	</div>
 </article>
 
