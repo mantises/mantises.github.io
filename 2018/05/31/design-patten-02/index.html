@@ -121,7 +121,7 @@
     }
 }
 </code></pre><p>在上述实现中直到第一次调用 <code>getInstance()</code> 才会初始化静态对象，实现了 <code>lazy-loading</code> 。但这种写法在多线程环境下会出现问题，因为该类并不是线程安全的。</p>
-<p>可以使用同步关键字 <code>synchronized</code> 以保证线程安全：</p>
+<p>可以使用<strong>同步关键字</strong> <code>synchronized</code> 以保证线程安全：</p>
 <pre><code>public class Singleton {
     private static Singleton instance;
     private Singleton () { }
@@ -132,7 +132,7 @@
         return instance;
     }
 }
-</code></pre><p>这种写法保证线程安全但也存在问题，使用同步会影响程序运行效率。另一种提升效率都方式是采用双重校验锁，具体实现如下：</p>
+</code></pre><p>这种写法保证线程安全但也存在问题，使用同步会影响程序运行效率。另一种提升效率都方式是采用<strong>双重校验锁</strong>，具体实现如下：</p>
 <pre><code>public class Singleton {
     private volatile static Singleton instance;
     private Singleton () { }
@@ -148,6 +148,17 @@
     }
 }
 </code></pre><p>在上述实现中，使用 <code>volatile</code> 关键字修饰静态对象，防止编译器对字节码命令进行重排序优化。当判断静态对象为 <code>null</code> 时，使用 <code>synchronized</code> 关键字对代码块加锁，此时不会有其他线程再进入临界区，其他线程会阻塞，当同步代码块执行完成后，其他线程再进行检查，若 <code>instance</code> 仍为 <code>null</code>，则 <code>instance</code> 是真为 <code>null</code>，可以安全执行 <code>new</code> 操作。</p>
+<p>除了使用<strong>双重校验锁</strong>，通过<strong>静态内部类</strong>实现单例是一种更简单有效的方法：</p>
+<pre><code>public class Singleton {
+    private static class SingletonHolder {
+        private static final INSTANCE = new Singleton();
+    }
+    private Singleton() { }
+    public static Singleton getInstance() {
+        return SingletonHolder.INSTANCE;        
+    }
+}
+</code></pre><p>这种实现方式通过使用静态内部类保证实现单例，且不需要进行同步就能保证线程安全。</p>
 <hr>
 <h3 id="3-饿汉式单例"><a href="#3-饿汉式单例" class="headerlink" title="3. 饿汉式单例"></a>3. 饿汉式单例</h3><p>饿汉式单例模式的最简单的一种实现方式如下：</p>
 <pre><code>public class Singleton {
@@ -157,7 +168,7 @@
         return instance;
     }
 }
-</code></pre><p>这种实现基于类加载机制避免同步，而在类加载阶段就初始化该静态对象，没有实现  <code>lazy-loading</code>，当对象比较大时，会影响程序都启动效率。另一种类似都变种如下：</p>
+</code></pre><p>这种实现基于类加载机制避免同步，而在类加载阶段就初始化该静态对象，是线程安全的。但是没有实现  <code>lazy-loading</code>，当对象比较大时，会影响程序都启动效率。另一种类似都变种如下：</p>
 <pre><code>public class Singleton {
     private static Singleton instance;
     static ｛
@@ -170,8 +181,21 @@
 }
 </code></pre><p>上面两种实现方式类似，缺点也类似。</p>
 <hr>
-<h3 id="3-懒汉式单例"><a href="#3-懒汉式单例" class="headerlink" title="3. 懒汉式单例"></a>3. 懒汉式单例</h3><hr>
-<h3 id="4-枚举类实现单例"><a href="#4-枚举类实现单例" class="headerlink" title="4. 枚举类实现单例"></a>4. 枚举类实现单例</h3>
+<h3 id="3-单元素枚举类实现单例"><a href="#3-单元素枚举类实现单例" class="headerlink" title="3. 单元素枚举类实现单例"></a>3. 单元素枚举类实现单例</h3><p>从 <code>jdk1.5</code> 起使用单元素枚举类实现单例模式，代码更加简洁，无需同步即可保证线程安全，而且还能防止反序列化重新创建新的对象，具体如下：</p>
+<pre><code>public enum Singleton {
+    INSTANCE;
+
+    // fields
+    ...
+
+    // methods
+    ...        
+}
+</code></pre><p>可以说是实现单例模式的<strong>最佳方法</strong>。</p>
+<hr>
+<h3 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h3><h4 id="4-1-反射引起的安全性问题"><a href="#4-1-反射引起的安全性问题" class="headerlink" title="4.1 反射引起的安全性问题"></a>4.1 反射引起的安全性问题</h4><p>通过反射，可以调用 <code>setAccessible()</code>，修改构造方法的访问权限，然后构造出一个新的 <code>Singleton</code> 实例，这样会导致程序中出现多个实例。若要抵御这种攻击，可以修改构造方法，让它在被要求创建第二个实例时抛出异常。</p>
+<h4 id="4-2-反序列化引起的安全性问题"><a href="#4-2-反序列化引起的安全性问题" class="headerlink" title="4.2 反序列化引起的安全性问题"></a>4.2 反序列化引起的安全性问题</h4><p>通常我们要在网络和文件中对对象进行传输和保存，在对象被序列化后，再进行恢复操作时，也可能创建多个对象，这个问题可以在类中添加 <code>readResolve()</code> 方法来避免。</p>
+
 	</div>
 </article>
 
